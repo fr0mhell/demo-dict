@@ -91,3 +91,25 @@ class DemoDictTestCase(TestCase):
 
     # TODO: add tests for update
 
+    def test_deletion(self):
+        a = MyHashable(hash_value=0)
+        b = MyHashable(hash_value=1)
+
+        self.empty[a] = self.a_value
+        self.empty[b] = self.b_value
+
+        # Check b deleted from all internals
+        b_locator = self.empty._locators_list[1]
+        del self.empty[b]
+        self.assertEqual(len(self.empty), 1)
+        self.assertIsNone(self.empty._locators_list[1])
+        self.assertListEqual(self.empty._table[b_locator], [None, None, None])
+
+        # Check c correctly added
+        c = MyHashable(hash_value=2)
+        self.empty[c] = self.c_value
+        self.assertEqual(len(self.empty), 2)
+
+    def test_deletion_raises_error(self):
+        with self.assertRaises(KeyError):
+            del self.with_values['c']

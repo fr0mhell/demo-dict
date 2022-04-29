@@ -18,7 +18,7 @@ class DemoDict:
     @property
     def _next_table_index(self):
         """Index of table row to insert new item."""
-        return 0 if not self._table else len(self._table)
+        return len(self)
 
     def _add_item(self, key, value):
         if len(self) > self._locator_list_size / 2:
@@ -52,7 +52,7 @@ class DemoDict:
             return locator_index, table_row_index
 
         old_hash, old_key, old_value = self._table[table_row_index]
-        if old_key == key:
+        if old_hash is not None and old_key == key:
             return locator_index, table_row_index
 
         # Perform linear probing - check next locator index
@@ -82,7 +82,7 @@ class DemoDict:
             self[key] = value
 
     def __len__(self):
-        return len(self._table)
+        return sum(i is not None for i in self._locators_list)
 
     def __getitem__(self, item):
         locator_index, table_index = self._get_locator_index_and_table_row_index_by_key(item)
@@ -99,4 +99,13 @@ class DemoDict:
     def __iter__(self):
         for _, key, _ in self._table:
             yield key
+
+    def __delitem__(self, key):
+        locator_index, table_index = self._get_locator_index_and_table_row_index_by_key(key)
+
+        if table_index is None:
+            raise KeyError(f'Key "{key}" not found')
+
+        self._locators_list[locator_index] = None
+        self._table[table_index] = [None, None, None]
 
