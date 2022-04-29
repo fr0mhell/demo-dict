@@ -60,8 +60,7 @@ class DemoDict:
         return self._get_locator_index_and_table_row_index_by_key(key, locator_index)
 
     def items(self):
-        for _, key, value in self._table:
-            yield key, value
+        return [(key, value) for _, key, value in self._table]
 
     def keys(self):
         return [key for _, key, _ in self._table]
