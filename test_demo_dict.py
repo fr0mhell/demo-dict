@@ -71,3 +71,27 @@ class DemoDictTestCase(TestCase):
         self.assertEqual(b_key, b)
         self.assertEqual(b_value, self.b_value)
 
+    def test_iter(self):
+        expected_keys = ['a', 'b']
+        result_keys = [key for key in self.with_values]
+
+        self.assertListEqual(result_keys, expected_keys)
+
+    def test_keys_method(self):
+        expected_keys = ['a', 'b']
+        result_keys = [key for key in self.with_values.keys()]
+
+        self.assertListEqual(result_keys, expected_keys)
+
+    def test_values_method(self):
+        expected_values = [self.a_value, self.b_value]
+        result_values = [value for value in self.with_values.values()]
+
+        self.assertListEqual(result_values, expected_values)
+
+    def test_items_method(self):
+        expected_pairs = [('a', self.a_value), ('b', self.b_value)]
+        result_pairs = [key_value_pair for key_value_pair in self.with_values.items()]
+
+        self.assertListEqual(result_pairs, expected_pairs)
+

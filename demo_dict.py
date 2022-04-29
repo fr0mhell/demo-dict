@@ -64,10 +64,10 @@ class DemoDict:
             yield key, value
 
     def keys(self):
-        return [key for _, key, value in self._table]
+        return [key for _, key, _ in self._table]
 
     def values(self):
-        return [value for _, key, value in self._table]
+        return [value for _, _, value in self._table]
 
     def __len__(self):
         return len(self._table)
@@ -83,4 +83,8 @@ class DemoDict:
 
     def __setitem__(self, key, value):
         self._add_item(key, value)
+
+    def __iter__(self):
+        for _, key, _ in self._table:
+            yield key
 
