@@ -68,6 +68,19 @@ class DemoDict:
     def values(self):
         return [value for _, _, value in self._table]
 
+    def update(self, obj=None, **kwargs):
+        if obj:
+            keys_method = getattr(obj, 'keys')
+            if callable(keys_method):
+                for key in obj.keys():
+                    self[key] = obj[key]
+            else:
+                for key, value in obj:
+                    self[key] = value
+
+        for key, value in kwargs.items():
+            self[key] = value
+
     def __len__(self):
         return len(self._table)
 

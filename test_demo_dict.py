@@ -89,3 +89,5 @@ class DemoDictTestCase(TestCase):
         expected_pairs = [('a', self.a_value), ('b', self.b_value)]
         self.assertListEqual(self.with_values.items(), expected_pairs)
 
+    # TODO: add tests for update
+
